@@ -1,1 +1,1 @@
-libomp-dev
+libgomp1
