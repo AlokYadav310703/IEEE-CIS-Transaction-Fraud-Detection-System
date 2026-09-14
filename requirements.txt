@@ -6,8 +6,4 @@ lightgbm==4.6.0
 plotly==5.24.0
 matplotlib==3.9.0
 seaborn==0.13.1
-<<<<<<< HEAD
 joblib==1.3.2
-=======
-joblib==1.3.2
->>>>>>> 2237977b835427f3c269f23cc294187115108a5f
