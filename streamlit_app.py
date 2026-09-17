@@ -9,19 +9,18 @@ Once it finishes, a full evaluation dashboard (metrics, curves, feature
 importance, downloadable table) is shown below.
 
 Run:
-    streamlit run app.py
+    streamlit run streamlit_app.py
 
 Expected files in the working directory (or set custom paths in the sidebar):
     - sample_1000.csv           raw 1000-row holdout sample (1000, 434), incl. isFraud
     - pipeline_artifacts.pkl    produced by fit_preprocessing() on Kaggle
-    - lgb_gbdt.txt              your saved LightGBM booster
+    - lgb_gbdt.joblib           your saved LightGBM booster (converted from .txt)
 """
 import time
 import pickle
 import numpy as np
 import pandas as pd
 import streamlit as st
-# import lightgbm as lgb
 import plotly.express as px
 import plotly.graph_objects as go
 import joblib
@@ -34,9 +33,9 @@ from fraud_pipeline import transform_new
 
 st.set_page_config(page_title="Fraud Detection Demo", layout="wide")
 
-DEFAULT_SAMPLE_PATH = "../data/sample_1000.csv"
-DEFAULT_ARTIFACTS_PATH = "../models/pipeline_artifacts.pkl"
-DEFAULT_MODEL_PATH = "../models/lgb_gbdt.joblib"
+DEFAULT_SAMPLE_PATH = "data/sample_1000.csv"
+DEFAULT_ARTIFACTS_PATH = "models/pipeline_artifacts.pkl"
+DEFAULT_MODEL_PATH = "models/lgb_gbdt.joblib"
 
 
 # --------------------------------------------------------------------------
@@ -44,7 +43,7 @@ DEFAULT_MODEL_PATH = "../models/lgb_gbdt.joblib"
 # --------------------------------------------------------------------------
 @st.cache_resource
 def load_model(path):
-    return joblib.load('../models/lgb_gbdt.joblib')
+    return joblib.load(path)
 
 
 @st.cache_resource
@@ -65,7 +64,7 @@ def load_sample(path):
 
 # sample_file = st.sidebar.text_input("Sample CSV path", DEFAULT_SAMPLE_PATH)
 # artifacts_file = st.sidebar.text_input("Pipeline artifacts (.pkl)", DEFAULT_ARTIFACTS_PATH)
-# model_file = st.sidebar.text_input("LightGBM model (.txt)", DEFAULT_MODEL_PATH)
+# model_file = st.sidebar.text_input("LightGBM model (.joblib)", DEFAULT_MODEL_PATH)
 
 # st.sidebar.markdown("---")
 n_rows = st.sidebar.slider("Transactions to simulate", min_value=10, max_value=10000, value=100, step=10)
@@ -75,7 +74,7 @@ speed = st.sidebar.select_slider(
     options=["Slow", "Normal", "Fast", "Instant"],
     value="Fast",
 )
-threshold=0.015
+threshold = 0.015
 # threshold = st.sidebar.slider("Decision threshold", min_value=0.0, max_value=1.0, value=0.01, step=0.01)
 # threshold = st.sidebar.slider("Decision threshold", 0.0, 1.0, 0.50, 0.01)
 if 'results' in st.session_state and 'isFraud' in st.session_state['results']['batch'].columns:
@@ -112,8 +111,8 @@ try:
 except FileNotFoundError as e:
     st.error(
         f"Couldn't find one of the required files: `{e.filename}`.\n\n"
-        "Make sure `sample_1000.csv`, `pipeline_artifacts.pkl` and `lgb_gbdt.txt` are "
-        "either in this app's working directory, or update the paths in the sidebar."
+        "Make sure `sample_1000.csv`, `pipeline_artifacts.pkl` and `lgb_gbdt.joblib` are "
+        "in the `data/` and `models/` directories."
     )
     st.stop()
 
@@ -329,11 +328,3 @@ st.download_button(
     file_name="fraud_predictions.csv",
     mime="text/csv",
 )
-
-
-
-
-
-
-
-
