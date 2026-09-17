@@ -23,7 +23,7 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
-import joblib
+import lightgbm as lgb  
 from sklearn.metrics import (
     roc_auc_score, average_precision_score, confusion_matrix,
     precision_score, recall_score, f1_score, roc_curve, precision_recall_curve,
@@ -35,7 +35,7 @@ st.set_page_config(page_title="Fraud Detection Demo", layout="wide")
 
 DEFAULT_SAMPLE_PATH = "data/sample_1000.csv"
 DEFAULT_ARTIFACTS_PATH = "models/pipeline_artifacts.pkl"
-DEFAULT_MODEL_PATH = "models/lgb_gbdt.joblib"
+DEFAULT_MODEL_PATH = "models/lgb_gbdt.txt"  # ← CHANGE TO .txt
 
 
 # --------------------------------------------------------------------------
@@ -43,7 +43,8 @@ DEFAULT_MODEL_PATH = "models/lgb_gbdt.joblib"
 # --------------------------------------------------------------------------
 @st.cache_resource
 def load_model(path):
-    return joblib.load(path)
+    """Load LightGBM model directly from .txt format"""
+    return lgb.Booster(model_file=path)
 
 
 @st.cache_resource

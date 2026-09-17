@@ -3,7 +3,10 @@ pandas
 numpy
 scikit-learn
 # LightGBM==4.6.0
+LightGBM
 plotly
 matplotlib
 seaborn
 joblib
+
+#don't specify any version of the lib streamlit will automatically detects its
