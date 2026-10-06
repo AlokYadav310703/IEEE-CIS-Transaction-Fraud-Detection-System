@@ -3,10 +3,8 @@
 A complete machine learning pipeline for the **IEEE-CIS Fraud Detection** Kaggle competition. The objective is to predict whether an online transaction is fraudulent using transaction and identity information provided by **Vesta Corporation**.
 
 ## Project Demo
+https://github.com/user-attachments/assets/35ce1c1f-b81f-4020-9bda-9b56d315f567
 
-![Project Demo](assets/demo.gif)
-
-[▶ Watch the full video](https://github.com/AlokYadav310703/IEEE-CIS-Transaction-Fraud-Detection-System/blob/main/images/Streamlit%20Simulation%20Demo.mp4)
 
 ---
 
